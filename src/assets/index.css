@@ -4,7 +4,7 @@
 
 /* ── SMOKE TEST ── */
 @layer base {
-  body {
-    background-color: #f0f0f0;
+  html {
+    @apply font-sans;
   }
 }
