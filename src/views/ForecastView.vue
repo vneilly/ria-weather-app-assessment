@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import { Tabs } from "@/components/Tabs.vue";
+import { City, CITY_LIST } from "@/constants/cityList";
 
-const activeCity = ref("Los Angeles");
+const activeCity = ref<City>(CITY_LIST[0]);
 
-const handleSetActiveCity = (city: string) => {
+const handleCitySelect = (city: City) => {
   activeCity.value = city;
+  // TBD: Add logic to fetch weather data for the selected city
 };
 </script>
 
 <template>
   <div>
     <!-- Tabs will be added here -->
-    <Tabs
-      :cities="['Los Angeles', 'New York', 'Chicago']"
-      :active="activeCity"
-      @select="activeCity = $event"
-    />
+    <Tabs :cities="CITY_LIST" :active="activeCity" @select="handleCitySelect" />
+
+    <!-- Hourly Forecast Section -->
   </div>
 </template>
