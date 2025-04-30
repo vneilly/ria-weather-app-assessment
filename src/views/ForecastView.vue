@@ -1,11 +1,21 @@
 <script setup lang="ts">
-// Future imports and state will be added here
+import { ref, watch } from "vue";
+import { Tabs } from "@/components/Tabs.vue";
+
+const activeCity = ref("Los Angeles");
+
+const handleSetActiveCity = (city: string) => {
+  activeCity.value = city;
+};
 </script>
 
 <template>
-  <!-- Tabs will be added here -->
-  <div class="forecast-view">
-    <h1>Forecast View</h1>
-    <p>This is the forecast view.</p>
+  <div>
+    <!-- Tabs will be added here -->
+    <Tabs
+      :cities="['Los Angeles', 'New York', 'Chicago']"
+      :active="activeCity"
+      @select="activeCity = $event"
+    />
   </div>
 </template>
