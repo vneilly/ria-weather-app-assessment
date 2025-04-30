@@ -26,7 +26,6 @@ const onRefresh = () => {
         title="Search"
       >
         <MagnifyingGlassIcon class="h-6 w-6" />
-        >
       </button>
       <button
         @click="onRefresh"
