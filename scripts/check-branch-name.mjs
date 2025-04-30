@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const { execSync } = require("child_process");
+import { execSync } from "child_process";
 
 // Grab the current branch name
 const branch = execSync("git rev-parse --abbrev-ref HEAD").toString().trim();
