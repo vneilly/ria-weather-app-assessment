@@ -1,6 +1,5 @@
 <script setup lang="ts">
-// props and emits will be defined here
-import { defineProps, defineEmits } from "vue";
+import { defineProps } from "vue";
 import { City } from "@/constants/cityList";
 
 interface TabProps {

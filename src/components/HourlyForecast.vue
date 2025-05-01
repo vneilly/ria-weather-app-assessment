@@ -3,26 +3,28 @@ import { defineProps } from "vue";
 import WeatherIcon from "./WeatherIcon.vue";
 
 interface HourlyViewProps {
-  time: string;
   temp: number;
-  icon: string;
   humidity: number;
+  icon: string;
+  time: string;
 }
 
-const props = defineProps<forecast: HourlyViewProps[]>();
+const props = defineProps<{ hours: HourlyViewProps[] }>();
 </script>
 
 <template>
-  <div class="hourly-forecast flex space-x-4 overflow-x-auto">
+  <div class="hourly-forecast flex space-x-4 overflow-x-auto scroll-smooth">
     <div
-      v-for="hour in forecast"
+      v-for="hour in props.hours"
       :key="hour.time"
-      class="flex flex-col items-center p-2 rounded-lg"
+      class="w-24 flex-shrink-0 snap-start bg-white border border-gray-200 p-4 rounded-lg text-center"
     >
-      <span class="text-lg font-medium">{{ hour.temp }}&deg;</span>
-      <span class="text-xs">{{ hour.humidity }}&#37;</span>
-      <WeatherIcon :code="hour.icon" size="2" />
-      <span class="text-sm">{{ hour.time }}</span>
+      <span class="text-lg font-medium block">{{ hour.temp }}&deg;</span>
+      <span class="text-xs text-blue-400 block mt-1"
+        >{{ hour.humidity }}&#37;</span
+      >
+      <WeatherIcon :code="hour.icon" :size="2" />
+      <span class="text-sm block mt-1">{{ hour.time }}</span>
     </div>
   </div>
 </template>
