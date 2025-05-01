@@ -8,7 +8,7 @@ import ForecastView from "@/views/ForecastView.vue";
   <Header />
 
   <!-- Main Content -->
-  <main class="pt-16">
+  <main class="container mx-auto px-4 pt-16">
     <ForecastView />
   </main>
 </template>
