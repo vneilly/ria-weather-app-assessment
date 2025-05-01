@@ -15,7 +15,7 @@ interface TabEmits {
 const props = defineProps<TabProps>();
 const emit = defineEmits<TabEmits>();
 
-const getTabClasses(city: City) => {
+const getTabClasses = (city: City) => {
   const base = "focus:outline-none cursor-pointer px-4 py-2";
   const activeStyles = "text-textPrimary font-semibold";
   const inactiveStyles = "text-textSecondary hover:text-accent";
