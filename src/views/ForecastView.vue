@@ -34,7 +34,7 @@ onMounted(async () => {
     <div class="mt-6 text-gray-500">
       <h2 class="text-2xl font-bold">Hourly Forecast</h2>
       <p class="mt-2">Detailed hourly forecast for {{ activeCity.name }}</p>
-      <!-- Add your hourly forecast component here -->
+      <!-- Add hourly forecast component here -->
     </div>
   </div>
 </template>
