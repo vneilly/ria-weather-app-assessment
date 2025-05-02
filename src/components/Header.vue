@@ -4,10 +4,6 @@ import { MagnifyingGlassIcon, ArrowPathIcon } from "@heroicons/vue/24/outline";
 const onSearch = () => {
   console.log("Search triggered");
 };
-
-const onRefresh = () => {
-  console.log("Refresh triggered");
-};
 </script>
 
 <template>
@@ -28,7 +24,7 @@ const onRefresh = () => {
         <MagnifyingGlassIcon class="h-6 w-6" />
       </button>
       <button
-        @click="onRefresh"
+        @click="$emit('refresh')"
         class="p-2 hover::text-accent transition-colors duration-200 focus:outline-none"
         aria-label="Refresh"
         title="Refresh"
