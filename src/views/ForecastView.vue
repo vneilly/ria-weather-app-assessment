@@ -1,28 +1,27 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
 import Tabs from "@/components/Tabs.vue";
 import { City, CITY_LIST } from "@/constants/cities";
-import { getWeather } from "@/services/weather";
-
 import HourlyForecast from "@/components/HourlyForecast.vue";
 import type { HourlyViewProps } from "@/components/HourlyForecast.vue";
-
-import { useWeatherData } from "@/composables/useWeatherData";
 import DailyForecast from "@/components/DailyForecast.vue";
+import type { DailySummary } from "@/components/DailyForecast.vue";
+import { defineEmits } from "vue";
 
-const { fetchForCity, hourlyData, dailySummaries, loading, error } =
-  useWeatherData();
+const props = defineProps<{
+  activeCity: City;
+  hourlyData: HourlyViewProps[];
+  dailySummaries: DailySummary[];
+  loading: Boolean;
+  error: string | null;
+}>();
 
-const activeCity = ref<City>(CITY_LIST[2]);
+const emit = defineEmits<{
+  (e: "select", city: City): void;
+}>();
 
-const handleCitySelect = async (city: City) => {
-  activeCity.value = city;
-  await fetchForCity(city);
+const handleCitySelect = (city: City) => {
+  emit("select", city);
 };
-
-onMounted(async () => {
-  await fetchForCity(activeCity.value);
-});
 </script>
 
 <template>
