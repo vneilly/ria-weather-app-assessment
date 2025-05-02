@@ -2,7 +2,7 @@
 import { defineProps } from "vue";
 import WeatherIcon from "./WeatherIcon.vue";
 
-interface HourlyViewProps {
+export interface HourlyViewProps {
   temp: number;
   humidity: number;
   icon: string;
