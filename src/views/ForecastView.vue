@@ -7,42 +7,21 @@ import { getWeather } from "@/services/weather";
 import HourlyForecast from "@/components/HourlyForecast.vue";
 import type { HourlyViewProps } from "@/components/HourlyForecast.vue";
 
+import { useWeatherData } from "@/composables/useWeatherData";
+import DailyForecast from "@/components/DailyForecast.vue";
+
+const { fetchForCity, hourlyData, dailySummaries, loading, error } =
+  useWeatherData();
+
 const activeCity = ref<City>(CITY_LIST[2]);
-
-const hourlyData = ref<HourlyViewProps[]>([]);
-
-const fetchWeatherData = async (city: City) => {
-  try {
-    const weatherData = await getWeather(city);
-    console.log("Weather Data:", weatherData);
-    if (!weatherData || !weatherData.list) {
-      console.error("Invalid weather data format");
-      return;
-    }
-
-    hourlyData.value = weatherData.list.slice(0, 12).map((hour) => ({
-      temp: hour.main.temp,
-      humidity: hour.main.humidity,
-      icon: hour.weather[0].icon,
-      time: new Date(hour.dt * 1000).toLocaleTimeString(undefined, {
-        hour: "numeric",
-        minute: "2-digit",
-      }),
-    }));
-
-    console.log("Mapped Hourly Data:", hourlyData.value);
-  } catch (error) {
-    console.error("Error fetching weather data:", error);
-  }
-};
 
 const handleCitySelect = async (city: City) => {
   activeCity.value = city;
-  await fetchWeatherData(city);
+  await fetchForCity(city);
 };
 
 onMounted(async () => {
-  await fetchWeatherData(activeCity.value);
+  await fetchForCity(activeCity.value);
 });
 </script>
 
@@ -52,14 +31,28 @@ onMounted(async () => {
     <Tabs :cities="CITY_LIST" :active="activeCity" @select="handleCitySelect" />
 
     <!-- Hourly Forecast Section -->
-    <div class="mt-6 text-gray-500">
-      <h2 class="text-2xl font-bold">Hourly Forecast</h2>
-      <p class="mt-2">Detailed hourly forecast for {{ activeCity.name }}</p>
+    <section class="mt-6 text-gray-500">
+      <h2 class="text-2xl font-bold">Next Hours</h2>
 
       <!-- hourly forecast component here -->
       <div class="mt-4">
         <HourlyForecast :hours="hourlyData" />
       </div>
+    </section>
+
+    <!-- Daily Forecast Section -->
+    <section v-if="dailySummaries.length" class="mt-8 text-gray-500">
+      <h2 class="text-2xl font-bold">Next 5 Days</h2>
+
+      <div class="mt-4">
+        <DailyForecast :summaries="dailySummaries" />
+      </div>
+    </section>
+
+    <!-- Loading and Error Handling -->
+    <div v-if="loading" class="text-center mt-6">Loading...</div>
+    <div v-if="error" class="text-red-500 text-center mt-6">
+      {{ error.message }}
     </div>
   </div>
 </template>

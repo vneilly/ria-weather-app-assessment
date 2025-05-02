@@ -1,10 +1,11 @@
 import axios from "axios";
 
 import type { City } from "@/constants/cities";
+import type { ForecastData } from "@/types/weatherTypes";
 
 const API_URL_BASE = "https://api.openweathermap.org/data/2.5/forecast";
 console.log("🔑 API_KEY:", import.meta.env.VITE_API_KEY);
-export const getWeather = async (city: City) => {
+export const getWeather = async (city: City): Promise<ForecastData> => {
   const API_KEY = import.meta.env.VITE_API_KEY;
 
   if (!API_KEY) {

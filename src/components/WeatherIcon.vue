@@ -18,7 +18,8 @@ const altText = computed(() => `Weather icon for ${props.code}`);
   <img
     :src="iconUrl"
     :alt="altText"
-    class="inline-block w-8 h-8"
+    class="inline-block"
     loading="lazy"
+    v-bind="$attrs"
   />
 </template>
