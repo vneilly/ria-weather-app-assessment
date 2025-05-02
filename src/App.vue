@@ -6,22 +6,30 @@ import { useWeatherData } from "@/composables/useWeatherData";
 import { CITY_LIST } from "@/constants/cities";
 import debounce from "lodash.debounce";
 
-import { ref, onBeforeUnmount } from "vue";
+import { ref, onBeforeUnmount, onMounted } from "vue";
 
 const activeCity = ref<City>(CITY_LIST[2]);
 
 const { fetchForCity, hourlyData, dailySummaries, loading, error } =
   useWeatherData();
 
+const lastUpdated = ref<Date | null>(null);
+
 const onRefresh = debounce(
-  () => {
-    fetchForCity(activeCity.value);
+  async () => {
+    await fetchForCity(activeCity.value);
+    lastUpdated.value = new Date();
   },
   500,
   { leading: true, trailing: false }
 );
 
-fetchForCity(activeCity.value);
+// Fetch data for the active city when the component is mounted
+// and set the last updated time
+onMounted(() => {
+  fetchForCity(activeCity.value);
+  lastUpdated.value = new Date();
+});
 
 onBeforeUnmount(() => {
   onRefresh.cancel();
@@ -47,4 +55,9 @@ const onCitySelect = (city: City) => {
       :error="error"
     />
   </main>
+  <footer class="text-right text-white text-sm mt-4 bg-headerBg">
+    <span v-if="lastUpdated"
+      >Last updated: {{ lastUpdated.toLocaleTimeString() }}</span
+    >
+  </footer>
 </template>
